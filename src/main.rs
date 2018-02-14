@@ -2,11 +2,11 @@ use std::process::{Child, Command, Stdio};
 use std::thread;
 
 
-
-fn operation(srcdir: &str,user: &str,host: &str) {
-    let output = Command::new("sh")
-        .arg("-c")
-        .arg(format!("{}{}{}{}{}{}", "rsync -av -e ssh --existing --include='*.gz'", srcdir,"/",user,"@",host))
+//rsync -av -e ssh motouchi@127.0.0.1:/tmp/test.txt /tmp/samples/
+fn operation(srcdir: &str,dstdir: &str,user: &str,host: &str) {
+    let output = Command::new("rsync ")
+        .arg("-av -e ssh ")
+        .arg(format!("{}{}{}:{} {}",user,"@",host,srcdir,dstdir))
         .output()
         .expect("failed to execute process");
     let operation = output.stdout;
@@ -17,7 +17,7 @@ fn main() {
 
     for line in 1..11 {
         println!("{} !!!!!!!!!",line);
-        operation("/var/log","motouchi","127.0.0.1");
+        operation("/tmp/test.txt","/tmp/samples/","motouchi","127.0.0.1");
     }
 
 }
